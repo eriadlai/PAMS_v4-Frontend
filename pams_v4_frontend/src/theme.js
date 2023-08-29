@@ -3,16 +3,26 @@ import { createTheme } from "@mui/material/styles";
 
 // color design tokens export
 export const tokens = (mode) => ({
-  ...(mode === "dark"
+  ...(mode === "white"
     ? {
-        primary: "#FFFFFF", //
-        secondary: "#630021", //
-        dark: "#231F20",
+        primary: "#3d4593", //
+        secondary: "#9386b9", //
+        dark: "#343434",
+        white: "#d1d1e5",
+        primaryDark: "#2c328c",
+        secondaryDark: "#6768ac",
+        blue: "#5d84c3",
+        green: "#9bc5c9",
       }
     : {
-        primary: "#FFFFFF",
-        secondary: "#630021",
-        dark: "#231F20",
+        primary: "#3d4593", //
+        secondary: "#9386b9", //
+        dark: "#343434",
+        white: "#d1d1e5",
+        primaryDark: "#2c328c",
+        secondaryDark: "#6768ac",
+        blue: "#5d84c3",
+        green: "#9bc5c9",
       }),
 });
 
@@ -32,7 +42,7 @@ export const themeSettings = (mode) => {
               main: colors.secondary,
             },
             background: {
-              default: "#2A2B2A",
+              default: colors.dark,
             },
           }
         : {
@@ -44,7 +54,7 @@ export const themeSettings = (mode) => {
               main: colors.secondary,
             },
             background: {
-              default: "#ededed",
+              default: colors.white,
             },
           }),
     },

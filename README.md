@@ -34,9 +34,27 @@ Repositorio para almacenar y controlar las versiones de desarrollo del frontend 
 ```sh
  npm i react-pro-sidebar
 ```
+
 ```sh
  npm i react-router-dom
 ```
+
+```sh
+ npm i redux-persist
+```
+
+```sh
+ npm i yup
+```
+
+```sh
+ npm i formik
+```
+
+```sh
+ npm i sweetalert2-react-content
+```
+
 ## CONSTRUCCION DEL AMBIENTE
 
 ### Creacion de carpetas para cada elemento
