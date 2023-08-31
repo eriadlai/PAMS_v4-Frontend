@@ -1,0 +1,129 @@
+import { Avatar, Box, Button, Container, Grid, TextField } from "@mui/material";
+import { Formik } from "formik";
+import * as yup from "yup";
+import Header from "../components/Header";
+import { loginUser } from "../tools/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { LoginModule } from "../app/usuarioContext";
+
+const initialValues = {
+  username: "",
+  password: "",
+};
+
+const userSchema = yup.object().shape({
+  username: yup.string().email("Invalid email").required("required"),
+  password: yup.string().required("required"),
+});
+const Form = () => {
+  const oUsuarios = useSelector((state) => state.usuario);
+  const oNavegacion = useNavigate();
+  useEffect(() => {
+    if (oUsuarios.user.isLoged) {
+      oNavegacion("/Dashboard");
+    }
+  });
+  const oDispatch = useDispatch();
+  const handleFormSubmit = (values) => {
+    LoginModule(values.username, values.password).then((data) =>
+      oDispatch(loginUser(data))
+    );
+  };
+  return (
+    <Container component="main" maxWidth="xs">
+      <Box>
+        <Grid
+          container
+          rowSpacing={4}
+          sx={{
+            direction: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            mt: 8,
+          }}
+        >
+          <Grid
+            item
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Header
+              title="INICIO DE SESIÓN"
+              subtitle="Ingrese sus credenciales"
+            />
+            <Formik
+              onSubmit={handleFormSubmit}
+              initialValues={initialValues}
+              validationSchema={userSchema}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+              }) => (
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  noValidate
+                  sx={{ mt: 1 }}
+                >
+                  <TextField
+                    fullWidth
+                    variant="filled"
+                    type="text"
+                    label="Correo"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.username}
+                    name="username"
+                    error={!!touched.username && !!errors.username}
+                    helperText={touched.username && errors.username}
+                    sx={{ gridColumn: "span 4" }}
+                  />
+
+                  <TextField
+                    fullWidth
+                    variant="filled"
+                    type="password"
+                    label="Contráseña"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.password}
+                    name="password"
+                    error={!!touched.password && !!errors.password}
+                    helperText={touched.password && errors.password}
+                    sx={{ gridColumn: "span 4" }}
+                  />
+
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    fullWidth
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Iniciar Sesión
+                  </Button>
+                </Box>
+              )}
+            </Formik>
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
+  );
+};
+export default Form;
