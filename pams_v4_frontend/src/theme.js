@@ -13,6 +13,7 @@ export const tokens = (mode) => ({
         secondaryDark: "#6768ac",
         blue: "#5d84c3",
         green: "#9bc5c9",
+        grey: "#94a5bc",
       }
     : {
         primary: "#3d4593", //
@@ -23,6 +24,7 @@ export const tokens = (mode) => ({
         secondaryDark: "#6768ac",
         blue: "#5d84c3",
         green: "#9bc5c9",
+        grey: "#94a5bc",
       }),
 });
 

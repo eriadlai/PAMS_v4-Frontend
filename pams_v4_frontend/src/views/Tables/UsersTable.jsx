@@ -1,18 +1,94 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Button } from "@mui/material";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Header from "../../components/Header";
+import { useEffect, useState } from "react";
+import { RutaApi, oSetLog } from "../../api/url";
+import TableStyle from "../../components/TableStyle";
+import { useSelector } from "react-redux";
 
 const UsersTable = () => {
+  const oUser = useSelector((state) => state.usuario);
+  const columns = [
+    { field: "_id", headerName: "ID", width: 100 },
+    {
+      field: "nombre",
+      headerName: "Nombre",
+      width: 200,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "apellido",
+      headerName: "Apellido(s)",
+      width: 200,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "correo",
+      headerName: "Usuario",
+      width: 200,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "Roles",
+      headerName: "Rol",
+      width: 150,
+    },
+    {
+      field: "opciones",
+      headerName: "Opciones",
+      width: 100,
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                console.log("BUTTON");
+              }}
+              sx={{ marginRight: 2 }}
+            >
+              EDITAR
+            </Button>
+          </>
+        );
+      },
+    },
+  ];
+  const [usuarios, setUsuarios] = useState([]);
+  useEffect(() => {
+    RutaApi.post("/usuario/all", oSetLog(oUser)).then((usuario) =>
+      setUsuarios(usuario.data)
+    );
+  }, []);
+  console.log(usuarios);
   return (
-    <Box m="20px">
-      {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header
-          title="USUARIOS REGISTRADOS"
-          subtitle="Despliegue de todos los empleados registrados en el sistema"
-        />
-      </Box>
-    </Box>
+    <>
+      <Header
+        title="USUARIOS REGISTRADOS"
+        subtitle="Despliegue de todos los empleados registrados en el sistema"
+      />
+      <TableStyle
+        oData={
+          <DataGrid
+            getRowId={(usuarios) => usuarios._id}
+            rows={usuarios}
+            columns={columns}
+            slots={{ Toolbar: GridToolbar }}
+            initialState={{
+              ...usuarios.initialState,
+              columns: {
+                ...usuarios.initialState?.columns,
+                columnVisibilityModel: {
+                  _id: false,
+                },
+              },
+            }}
+          />
+        }
+      />
+    </>
   );
 };
 

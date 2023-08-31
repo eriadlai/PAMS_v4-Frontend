@@ -23,6 +23,7 @@ export const LoginModule = async (username, password) => {
       rol: oUsuario.data.Roles,
       isActive: true,
       isLoged: true,
+      token: oUsuario.data.token,
     };
   } else {
     oErrorAlert("Error!", "Usuario o contraseña incorrectos");

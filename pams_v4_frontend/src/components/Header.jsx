@@ -9,7 +9,7 @@ const Header = ({ title, subtitle }) => {
     <Box mb="30px">
       <Typography
         variant="h2"
-        color={oTema === "light" ? colors.dark : colors.yellow}
+        color={oTema === "light" ? colors.dark : colors.white}
         fontWeight="bold"
         sx={{ m: "0 0 5px 0" }}
       >
@@ -17,7 +17,7 @@ const Header = ({ title, subtitle }) => {
       </Typography>
       <Typography
         variant="h4"
-        color={oTema === "light" ? colors.lightSecondary : colors.primary}
+        color={oTema === "light" ? colors.dark : colors.green}
       >
         {subtitle}
       </Typography>

@@ -55,6 +55,14 @@ Repositorio para almacenar y controlar las versiones de desarrollo del frontend 
  npm i sweetalert2-react-content
 ```
 
+```sh
+ npm i @mui/x-data-grid
+```
+
+```sh
+ npm i jwt-decode
+```
+
 ## CONSTRUCCION DEL AMBIENTE
 
 ### Creacion de carpetas para cada elemento

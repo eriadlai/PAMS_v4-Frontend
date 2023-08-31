@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -30,21 +30,20 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 const Sidebar = () => {
   const oUsuarios = useSelector((state) => state.usuario);
+  console.log(oUsuarios);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(true);
-  const [selected, setSelected] = useState(
-    localStorage.getItem("selectedOption") || "Análisis"
+  const [isCollapsed, setIsCollapsed] = useState(
+    localStorage.getItem("isCollapsed") === "true"
   );
-  const location = useLocation();
+  const [selected, setSelected] = useState(
+    localStorage.getItem("selectedOption") || "Pantalla Principal"
+  );
   useEffect(() => {
     localStorage.setItem("selectedOption", selected);
-  }, [selected]);
+    localStorage.setItem("isCollapsed", isCollapsed);
+  }, [isCollapsed, selected]);
 
-  useEffect(() => {
-    const currentPath = location.pathname;
-    setSelected(currentPath);
-  }, [location]);
   return (
     <Box
       sx={{
@@ -96,7 +95,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  {oUsuarios.user.nombre}
+                  {oUsuarios.user.nombre + " " + oUsuarios.user.apellido}
                 </Typography>
                 <Typography variant="h5" color={colors.green}>
                   {oUsuarios.user.rol}

@@ -1,12 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-/**
- * * LOGICA A GUARDAR
- * ! const foundTask = state.find((task) => task.id === id);
- * !   if (foundTask) {
- * !       foundTask.title = title;
- * !       foundTask.description = description;
- * !     }
- * **/
+
 const initialState = {
   user: {
     id: "",
@@ -15,6 +8,7 @@ const initialState = {
     rol: "",
     isActive: true,
     isLoged: false,
+    token: "",
   },
 };
 
@@ -28,6 +22,12 @@ const userSlice = createSlice({
         user: action.payload,
       };
     },
+    updateToken: (state, action) => {
+      return {
+        ...state,
+        user: action.payload,
+      };
+    },
     logoutUser: (state) => {
       const usuarioDesactivado = {
         id: "",
@@ -36,6 +36,7 @@ const userSlice = createSlice({
         rol: "",
         isActive: true,
         isLoged: false,
+        token: "",
       };
       return {
         ...state,
@@ -45,5 +46,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginUser, logoutUser } = userSlice.actions;
+export const { loginUser, logoutUser, updateToken } = userSlice.actions;
 export default userSlice.reducer;
