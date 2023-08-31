@@ -30,7 +30,6 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 const Sidebar = () => {
   const oUsuarios = useSelector((state) => state.usuario);
-  console.log(oUsuarios);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(

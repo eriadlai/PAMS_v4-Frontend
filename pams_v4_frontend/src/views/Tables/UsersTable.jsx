@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
-import { RutaApi, oSetLog } from "../../api/url";
+import { RutaApi, oSetLog, oUpdateToken } from "../../api/url";
 import TableStyle from "../../components/TableStyle";
 import { useSelector } from "react-redux";
 
@@ -58,11 +58,16 @@ const UsersTable = () => {
   ];
   const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
-    RutaApi.post("/usuario/all", oSetLog(oUser)).then((usuario) =>
-      setUsuarios(usuario.data)
-    );
+    RutaApi.post("/usuario/all", oSetLog(oUser))
+      .then((usuario) => {
+        setUsuarios(usuario.data);
+        oUpdateToken(oUser, usuario.data[usuario.data.length - 1].token);
+        usuario.data.pop();
+      })
+      .catch((err) => {
+        console.log(err.response.status);
+      });
   }, []);
-  console.log(usuarios);
   return (
     <>
       <Header

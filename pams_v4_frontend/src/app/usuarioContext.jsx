@@ -1,4 +1,4 @@
-import { RutaApi } from "../api/url";
+import { RutaLogin } from "../api/url";
 import { oSuccessAlert, oErrorAlert } from "../components/Alerts/Alerts";
 
 export const LoginModule = async (username, password) => {
@@ -12,7 +12,7 @@ export const LoginModule = async (username, password) => {
     isActive: true,
     isLoged: false,
   };
-  const oUsuario = await RutaApi.post("/usuario/login", oBody);
+  const oUsuario = await RutaLogin.post("/usuario/login", oBody);
   if (oUsuario.status === 200) {
     oSuccessAlert("¡Éxito!", "Bienvenido");
     SetUsuario = {
