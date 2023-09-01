@@ -5,7 +5,6 @@ import { useTheme } from "@mui/material";
 const TableStyle = ({ oData }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const oTema = theme.palette.mode;
 
   return (
     <Box

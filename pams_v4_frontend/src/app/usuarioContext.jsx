@@ -1,5 +1,9 @@
-import { RutaLogin } from "../api/url";
-import { oSuccessAlert, oErrorAlert } from "../components/Alerts/Alerts";
+import { RutaApi, RutaLogin, oUpdateToken } from "../api/url";
+import {
+  oSuccessAlert,
+  oErrorAlert,
+  oSuccessAlertRedirection,
+} from "../components/Alerts/Alerts";
 
 export const LoginModule = async (username, password) => {
   const oBody = { oUser: username, oPass: password };
@@ -29,4 +33,26 @@ export const LoginModule = async (username, password) => {
     oErrorAlert("Error!", "Usuario o contraseña incorrectos");
   }
   return SetUsuario;
+};
+export const CrearUsuario = async (oUsuario, oData) => {
+  const SetUsuario = {
+    nombre: oUsuario.nombre,
+    apellido: oUsuario.apellido,
+    correo: oUsuario.correo,
+    password: oUsuario.password,
+    isActive: 1,
+    Roles: oUsuario.Roles,
+    oUserRol: oData.user.rol,
+    oUserID: oData.user.id,
+  };
+  const oResult = await RutaApi.post("/usuario/insert", SetUsuario);
+  if (oResult.status !== 200) {
+    oErrorAlert("Ups", "Ha sucedido un error...");
+  }
+  oUpdateToken()
+  oSuccessAlertRedirection(
+    "Usuario  Creado",
+    "Se ha registrado satisfactoriamente al usuario",
+    "/TablaUsuarios"
+  );
 };

@@ -5,9 +5,18 @@ import { useEffect, useState } from "react";
 import { RutaApi, oSetLog, oUpdateToken } from "../../api/url";
 import TableStyle from "../../components/TableStyle";
 import { useSelector } from "react-redux";
+import { oOpciones } from "../../components/Alerts/Alerts";
+import { useNavigate } from "react-router-dom";
 
 const UsersTable = () => {
   const oUser = useSelector((state) => state.usuario);
+  const navigator = useNavigate();
+  const handleEdit = (data) => {
+    navigator("/FormEditUsuarios", { state: data });
+  };
+  const handleDelete = (data) => {
+    console.log(data);
+  };
   const columns = [
     { field: "_id", headerName: "ID", width: 100 },
     {
@@ -36,7 +45,7 @@ const UsersTable = () => {
     {
       field: "opciones",
       headerName: "Opciones",
-      width: 100,
+      width: 150,
       renderCell: (cellValues) => {
         return (
           <>
@@ -45,11 +54,11 @@ const UsersTable = () => {
               color="primary"
               variant="contained"
               onClick={() => {
-                console.log("BUTTON");
+                oOpciones(cellValues.row, handleEdit, handleDelete);
               }}
               sx={{ marginRight: 2 }}
             >
-              EDITAR
+              OPCIONES
             </Button>
           </>
         );

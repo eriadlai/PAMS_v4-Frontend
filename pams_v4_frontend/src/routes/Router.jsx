@@ -2,7 +2,8 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "../views/Dashboard";
 import UsersTable from "../views/Tables/UsersTable";
-import UsersForm from "../views/Forms/UsersForm";
+import UsersForm from "../views/Forms/Users/UsersForm";
+import UsersEditForm from "../views/Forms/Users/UsersEditForm";
 import Login from "../views/Login";
 import RutaPrivada from "./PrivateRoute";
 
@@ -14,6 +15,7 @@ const Router = () => {
       <Route element={<RutaPrivada />}>
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/FormUsuarios" element={<UsersForm />} />
+        <Route path="/FormEditUsuarios" element={<UsersEditForm />} />
         <Route path="/TablaUsuarios" element={<UsersTable />} />
       </Route>
     </Routes>
