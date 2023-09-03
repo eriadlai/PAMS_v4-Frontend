@@ -7,6 +7,7 @@ import TableStyle from "../../components/TableStyle";
 import { useSelector } from "react-redux";
 import { oOpciones } from "../../components/Alerts/Alerts";
 import { useNavigate } from "react-router-dom";
+import { EliminarUsuario } from "../../app/usuarioContext";
 
 const UsersTable = () => {
   const oUser = useSelector((state) => state.usuario);
@@ -15,7 +16,7 @@ const UsersTable = () => {
     navigator("/FormEditUsuarios", { state: data });
   };
   const handleDelete = (data) => {
-    console.log(data);
+    EliminarUsuario(oUser, data);
   };
   const columns = [
     { field: "_id", headerName: "ID", width: 100 },
