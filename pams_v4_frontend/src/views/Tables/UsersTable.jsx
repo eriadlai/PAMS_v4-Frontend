@@ -1,5 +1,4 @@
-import { Button } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { Box, Button } from "@mui/material";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
 import { RutaApi, oSetLog, oUpdateToken } from "../../api/url";
@@ -84,25 +83,7 @@ const UsersTable = () => {
         title="USUARIOS REGISTRADOS"
         subtitle="Despliegue de todos los empleados registrados en el sistema"
       />
-      <TableStyle
-        oData={
-          <DataGrid
-            getRowId={(usuarios) => usuarios._id}
-            rows={usuarios}
-            columns={columns}
-            slots={{ Toolbar: GridToolbar }}
-            initialState={{
-              ...usuarios.initialState,
-              columns: {
-                ...usuarios.initialState?.columns,
-                columnVisibilityModel: {
-                  _id: false,
-                },
-              },
-            }}
-          />
-        }
-      />
+      <TableStyle oData={usuarios} oColumns={columns} />
     </>
   );
 };

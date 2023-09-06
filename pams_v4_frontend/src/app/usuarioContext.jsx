@@ -17,7 +17,7 @@ export const LoginModule = async (username, password) => {
     isLoged: false,
   };
   const oUsuario = await RutaLogin.post("/usuario/login", oBody);
-  if (oUsuario.status === 200) {
+  if (oUsuario.data !== 401) {
     oSuccessAlert("¡Éxito!", "Bienvenido");
     SetUsuario = {
       id: oUsuario.data._id,
