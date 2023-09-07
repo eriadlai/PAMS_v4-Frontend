@@ -6,7 +6,6 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 const TableStyle = ({ oData, oColumns }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   return (
     <Box
       sx={{

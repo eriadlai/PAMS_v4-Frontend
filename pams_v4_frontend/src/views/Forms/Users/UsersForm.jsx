@@ -44,7 +44,7 @@ const UsersForm = () => {
     CrearUsuario(values, oUser);
   };
   return (
-    <Box m="20px">
+    <Box sx={{ m: "20px", pb: 8 }}>
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
