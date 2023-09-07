@@ -1,13 +1,22 @@
-import { Button } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { Box, Button } from "@mui/material";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
 import { RutaApi, oSetLog, oUpdateToken } from "../../api/url";
 import TableStyle from "../../components/TableStyle";
 import { useSelector } from "react-redux";
+import { oOpciones } from "../../components/Alerts/Alerts";
+import { useNavigate } from "react-router-dom";
+import { EliminarUsuario } from "../../app/usuarioContext";
 
 const UsersTable = () => {
   const oUser = useSelector((state) => state.usuario);
+  const navigator = useNavigate();
+  const handleEdit = (data) => {
+    navigator("/FormEditUsuarios", { state: data });
+  };
+  const handleDelete = (data) => {
+    EliminarUsuario(oUser, data);
+  };
   const columns = [
     { field: "_id", headerName: "ID", width: 100 },
     {
@@ -36,7 +45,7 @@ const UsersTable = () => {
     {
       field: "opciones",
       headerName: "Opciones",
-      width: 100,
+      width: 150,
       renderCell: (cellValues) => {
         return (
           <>
@@ -45,11 +54,11 @@ const UsersTable = () => {
               color="primary"
               variant="contained"
               onClick={() => {
-                console.log("BUTTON");
+                oOpciones(cellValues.row, handleEdit, handleDelete);
               }}
               sx={{ marginRight: 2 }}
             >
-              EDITAR
+              OPCIONES
             </Button>
           </>
         );
@@ -74,25 +83,7 @@ const UsersTable = () => {
         title="USUARIOS REGISTRADOS"
         subtitle="Despliegue de todos los empleados registrados en el sistema"
       />
-      <TableStyle
-        oData={
-          <DataGrid
-            getRowId={(usuarios) => usuarios._id}
-            rows={usuarios}
-            columns={columns}
-            slots={{ Toolbar: GridToolbar }}
-            initialState={{
-              ...usuarios.initialState,
-              columns: {
-                ...usuarios.initialState?.columns,
-                columnVisibilityModel: {
-                  _id: false,
-                },
-              },
-            }}
-          />
-        }
-      />
+      <TableStyle oData={usuarios} oColumns={columns} />
     </>
   );
 };

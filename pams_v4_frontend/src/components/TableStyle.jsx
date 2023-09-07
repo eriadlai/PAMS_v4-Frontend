@@ -1,21 +1,14 @@
 import { Box } from "@mui/material";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
-const TableStyle = ({ oData }) => {
+const TableStyle = ({ oData, oColumns }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const oTema = theme.palette.mode;
-
   return (
     <Box
-      m="40px 0 0 0"
-      height="65vh"
       sx={{
-        "& .MuiDataGrid-root": {
-          border: "none",
-          color: colors.white,
-        },
         "& .MuiDataGrid-cell": {
           borderBottom: "none",
           color: colors.primaryDark,
@@ -34,16 +27,40 @@ const TableStyle = ({ oData }) => {
           borderTop: "none",
           backgroundColor: colors.primary,
         },
-        "& .MuiCheckbox-root": {
-          color: `${colors.green} !important`,
-        },
         "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
           color: `${colors.primary} !important`,
         },
-        maxWidth: "90%",
+        // Estilos responsivos para dispositivos móviles
+        "@media (max-width: 600px)": {
+          "& .MuiDataGrid-root": {
+            overflowX: "auto",
+          },
+          "& .MuiDataGrid-columnsContainer": {
+            flexWrap: "nowrap",
+          },
+          "& .MuiDataGrid-colCellTitle": {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          },
+        },
       }}
     >
-      {oData}
+      <DataGrid
+        getRowId={(oData) => oData._id}
+        rows={oData}
+        columns={oColumns}
+        slots={{ Toolbar: GridToolbar }}
+        initialState={{
+          ...oData.initialState,
+          columns: {
+            ...oData.initialState?.columns,
+            columnVisibilityModel: {
+              _id: false,
+            },
+          },
+        }}
+      />
     </Box>
   );
 };
