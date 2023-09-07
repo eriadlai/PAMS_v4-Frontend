@@ -140,6 +140,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Tabla de Pacientes"
+              to="/TablaPacientes"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             {!isCollapsed ? (
               <Typography
                 variant="h6"

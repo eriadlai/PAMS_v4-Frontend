@@ -1,24 +1,24 @@
-import { Button } from "@mui/material";
-import Header from "../../components/Header";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RutaApi, oSetLog, oUpdateToken } from "../../api/url";
-import TableStyle from "../../components/TableStyle";
 import { useSelector } from "react-redux";
-import { oOpciones } from "../../components/Alerts/Alerts";
 import { useNavigate } from "react-router-dom";
-import { EliminarUsuario } from "../../app/usuarioContext";
+import { Button } from "@mui/material";
+import { oOpciones } from "../../components/Alerts/Alerts";
+import Header from "../../components/Header";
+import TableStyle from "../../components/TableStyle";
 
-const UsersTable = () => {
+const PatientsTable = () => {
   const oUser = useSelector((state) => state.usuario);
   const navigator = useNavigate();
   const handleEdit = (data) => {
-    navigator("/FormEditUsuarios", { state: data });
+    navigator("/MenuPaciente", { state: data });
   };
   const handleDelete = (data) => {
-    EliminarUsuario(oUser, data);
+    console.log(data, "ELIMINAR");
   };
   const columns = [
     { field: "_id", headerName: "ID", width: 100 },
+    { field: "noExpediente", headerName: "ID", width: 100 },
     {
       field: "nombre",
       headerName: "Nombre",
@@ -32,14 +32,14 @@ const UsersTable = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "correo",
-      headerName: "Usuario",
+      field: "telefono",
+      headerName: "Telefono",
       width: 200,
       cellClassName: "name-column--cell",
     },
     {
-      field: "Roles",
-      headerName: "Rol",
+      field: "fechaRegistro",
+      headerName: "Fecha de registro",
       width: 150,
     },
     {
@@ -65,13 +65,13 @@ const UsersTable = () => {
       },
     },
   ];
-  const [usuarios, setUsuarios] = useState([]);
+  const [pacientes, setPacientes] = useState([]);
   useEffect(() => {
-    RutaApi.post("/usuario/all", oSetLog(oUser))
-      .then((usuario) => {
-        setUsuarios(usuario.data);
-        oUpdateToken(oUser, usuario.data[usuario.data.length - 1].token);
-        usuario.data.pop();
+    RutaApi.post("/paciente/all", oSetLog(oUser))
+      .then((paciente) => {
+        setPacientes(paciente.data);
+        oUpdateToken(oUser, paciente.data[paciente.data.length - 1].token);
+        paciente.data.pop();
       })
       .catch((err) => {
         console.log(err.response.status);
@@ -80,12 +80,12 @@ const UsersTable = () => {
   return (
     <>
       <Header
-        title="USUARIOS REGISTRADOS"
-        subtitle="Despliegue de todos los empleados registrados en el sistema"
+        title="PACIENTES REGISTRADOS"
+        subtitle="Despliegue de todos los pacientes registrados en el sistema"
       />
-      <TableStyle oData={usuarios} oColumns={columns} />
+      <TableStyle oData={pacientes} oColumns={columns} />
     </>
   );
 };
 
-export default UsersTable;
+export default PatientsTable;
