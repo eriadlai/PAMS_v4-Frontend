@@ -18,7 +18,7 @@ const PatientsTable = () => {
   };
   const columns = [
     { field: "_id", headerName: "ID", width: 100 },
-    { field: "noExpediente", headerName: "ID", width: 100 },
+    { field: "noExpediente", headerName: "ID", width: 50 },
     {
       field: "nombre",
       headerName: "Nombre",
@@ -34,7 +34,7 @@ const PatientsTable = () => {
     {
       field: "telefono",
       headerName: "Telefono",
-      width: 200,
+      width: 150,
       cellClassName: "name-column--cell",
     },
     {

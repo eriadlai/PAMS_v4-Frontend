@@ -63,6 +63,10 @@ Repositorio para almacenar y controlar las versiones de desarrollo del frontend 
  npm i jwt-decode
 ```
 
+```sh
+ npm i @mui/lab
+```
+
 ## CONSTRUCCION DEL AMBIENTE
 
 ### Creacion de carpetas para cada elemento
