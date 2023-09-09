@@ -165,6 +165,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Agregar Pacientes"
+              to="/FormPaciente"
+              icon={<GroupAddOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
           </Box>
         </Menu>
       </ProSidebar>

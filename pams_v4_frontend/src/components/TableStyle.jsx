@@ -47,7 +47,7 @@ const TableStyle = ({ oData, oColumns }) => {
       }}
     >
       <DataGrid
-        getRowId={(oData) => oData._id}
+        getRowId={(oData) => (oData._id ? oData._id : oData.length - 1)}
         rows={oData}
         columns={oColumns}
         slots={{ Toolbar: GridToolbar }}

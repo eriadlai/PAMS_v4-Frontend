@@ -13,11 +13,9 @@ import PatientFamiliar from "./PatientFamiliar";
 import PatientAntecedentes from "./PatientAntecedentes";
 import PatientPersonal from "./PatientPersonal";
 import { useTheme } from "@emotion/react";
-import { tokens } from "../../../theme";
 
 const PatientsMenu = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const oUser = useSelector((state) => state.usuario);
   const { state: data } = useLocation();
   const [value, setValue] = useState(1);
@@ -59,6 +57,11 @@ const PatientsMenu = () => {
     habitos: data.Habitos,
     historialSexual: data.historialSexual,
   };
+  const oDatosProblematica = {
+    id: data._id,
+    problematica: data.Problematica,
+    sustancia: data.Sustancia,
+  };
 
   return (
     <Box m="20px">
@@ -92,19 +95,19 @@ const PatientsMenu = () => {
             </TabList>
           </Box>
           <TabPanel value={1}>
-            <PatientEditForm oDatos={oDatosGenerales} />
+            <PatientEditForm oDatos={oDatosGenerales} oUser={oUser} />
           </TabPanel>
           <TabPanel value={2}>
-            <PatientProblematica oData={data.Problematica} />
+            <PatientProblematica oData={oDatosProblematica} oUser={oUser} />
           </TabPanel>
           <TabPanel value={3}>
-            <PatientFamiliar oData={oDatosFamiliar} />
+            <PatientFamiliar oData={oDatosFamiliar} oUser={oUser} />
           </TabPanel>
           <TabPanel value={4}>
-            <PatientAntecedentes oData={oDatosAntecedentes} />
+            <PatientAntecedentes oData={oDatosAntecedentes} oUser={oUser} />
           </TabPanel>
           <TabPanel value={5}>
-            <PatientPersonal oData={oDatosPersonales} />
+            <PatientPersonal oData={oDatosPersonales} oUser={oUser} />
           </TabPanel>
         </TabContext>
       </Box>

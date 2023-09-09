@@ -5,6 +5,7 @@ import UsersTable from "../views/Tables/UsersTable";
 import UsersForm from "../views/Forms/Users/UsersForm";
 import UsersEditForm from "../views/Forms/Users/UsersEditForm";
 import PatientsTable from "../views/Tables/PatientsTable";
+import PatientForm from "../views/Forms/Patient/PatientForm";
 import AddMenu from "../views/Mobile/AddMenu";
 import InfoMenu from "../views/Mobile/InfoMenu";
 import Login from "../views/Login";
@@ -22,6 +23,7 @@ const Router = () => {
         <Route path="/FormEditUsuarios" element={<UsersEditForm />} />
         <Route path="/TablaUsuarios" element={<UsersTable />} />
         <Route path="/TablaPacientes" element={<PatientsTable />} />
+        <Route path="/FormPaciente" element={<PatientForm />} />
         <Route path="/MenuPaciente" element={<PatientsMenu />} />
         <Route path="/AddMenu" element={<AddMenu />} />
         <Route path="/InfoMenu" element={<InfoMenu />} />

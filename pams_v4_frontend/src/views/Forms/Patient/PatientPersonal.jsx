@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import Header from "../../../components/Header";
 
-const PatientPersonal = (oData) => {
+const PatientPersonal = (oData, oUser) => {
   console.log(oData);
   return (
     <Box m="20px">

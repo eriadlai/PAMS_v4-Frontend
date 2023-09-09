@@ -1,9 +1,21 @@
-import { Box, TextField, useMediaQuery } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  TextField,
+  useMediaQuery,
+} from "@mui/material";
 import React from "react";
 import Header from "../../../components/Header";
 import { Formik } from "formik";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
+import { CrearPaciente } from "../../../app/pacienteContext";
+import {
+  oEstadoCivilOpciones,
+  oNivelEscolarOpciones,
+  phoneRegExp,
+} from "../../../app/staticDataContext";
 
 const PatientForm = () => {
   const oUser = useSelector((state) => state.usuario);
@@ -16,12 +28,11 @@ const PatientForm = () => {
     actividadExtra: "",
     direccion: "",
     telefono: "",
-    isActive: 1,
     estadoCivil: "",
+    nivelEscolar: "",
+    religion: "",
   };
-  const phoneRegExp =
-    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-  const oEstadoCivilOpciones = ["SOLTERO/A", "CASADO/A", "DIVORCIADO/A"];
+
   const userSchema = yup.object().shape({
     nombre: yup.string().required("Campo obligatorio"),
     apellido: yup.string().required("Campo obligatorio"),
@@ -29,19 +40,21 @@ const PatientForm = () => {
     ocupacion: yup.string().required("Campo obligatorio"),
     actividadExtra: yup.string().required("Campo obligatorio"),
     direccion: yup.string().required("Campo obligatorio"),
-    telefono: yup.number(phoneRegExp).required("required"),
+    telefono: yup.number(phoneRegExp).required("Campo obligatorio"),
     estadoCivil: yup.string().required("Campo obligatorio"),
+    nivelEscolar: yup.string().required("Campo obligatorio"),
+    religion: yup.string().required("Campo obligatorio"),
   });
   const handleFormSubmit = (values) => {
-    console.log(values);
+    CrearPaciente(values, oUser);
   };
   return (
     <Box sx={{ m: "20px", pb: 8 }}>
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title="REGISTRO DE USUARIOS"
-          subtitle="Apartado para el registro de nuevos empleados"
+          title="REGISTRO DE PACIENTES"
+          subtitle="Apartado para el registro de nuevos pacientes"
         />
       </Box>
       <Formik
@@ -106,7 +119,19 @@ const PatientForm = () => {
                 helperText={touched.fechaNacimiento && errors.fechaInforme}
                 sx={{ gridColumn: "span 2" }}
               />
-
+              <TextField
+                fullWidth
+                variant="filled"
+                type="number"
+                label="Telefono/Celular"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.telefono}
+                name="telefono"
+                error={!!touched.telefono && !!errors.telefono}
+                helperText={touched.telefono && errors.telefono}
+                sx={{ gridColumn: "span 2" }}
+              />
               <TextField
                 fullWidth
                 variant="filled"
@@ -124,6 +149,19 @@ const PatientForm = () => {
                 fullWidth
                 variant="filled"
                 type="text"
+                label="Religion"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.religion}
+                name="religion"
+                error={!!touched.religion && !!errors.religion}
+                helperText={touched.religion && errors.religion}
+                sx={{ gridColumn: "span 2" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
                 label="Actividad Extra"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -131,7 +169,7 @@ const PatientForm = () => {
                 name="actividadExtra"
                 error={!!touched.actividadExtra && !!errors.actividadExtra}
                 helperText={touched.actividadExtra && errors.actividadExtra}
-                sx={{ gridColumn: "span 2" }}
+                sx={{ gridColumn: "span 4" }}
               />
               <TextField
                 fullWidth
@@ -144,37 +182,35 @@ const PatientForm = () => {
                 name="direccion"
                 error={!!touched.direccion && !!errors.direccion}
                 helperText={touched.direccion && errors.direccion}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Telefono/Celular"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.telefono}
-                name="telefono"
-                error={!!touched.telefono && !!errors.telefono}
-                helperText={touched.telefono && errors.telefono}
-                sx={{ gridColumn: "span 2" }}
+                sx={{ gridColumn: "span 4" }}
               />
 
               <Autocomplete
                 disablePortal
                 id="oEstadoCivil"
                 options={oEstadoCivilOpciones}
-                onChange={(event, value) => values}
-                getOptionLabel={(opt) => opt.nombre}
-                sx={{ gridColumn: "span 4" }}
+                onChange={(event, value) => (values.estadoCivil = value)}
+                getOptionLabel={(opt) => opt}
+                sx={{ gridColumn: "span 2" }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Roles" />
+                  <TextField {...params} label="Estado Civil" />
+                )}
+              />
+              <Autocomplete
+                disablePortal
+                id="oNivelEscolar"
+                options={oNivelEscolarOpciones}
+                onChange={(event, value) => (values.nivelEscolar = value)}
+                getOptionLabel={(opt) => opt}
+                sx={{ gridColumn: "span 2" }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Nivel Escolar" />
                 )}
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Crear Usuario
+                Crear Paciente
               </Button>
             </Box>
           </form>
