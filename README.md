@@ -67,6 +67,10 @@ Repositorio para almacenar y controlar las versiones de desarrollo del frontend 
  npm i @mui/lab
 ```
 
+```sh
+ npm i @mui/x-data-grid-generator
+```
+
 ## CONSTRUCCION DEL AMBIENTE
 
 ### Creacion de carpetas para cada elemento

@@ -49,7 +49,7 @@ export const CrearPaciente = async (oPaciente, oData) => {
           aplicacion: "N/A",
           lugar: "N/A",
           duracion: "N/A",
-          fechas: "N/A",
+          fechas: "1/1/1",
         },
       ],
     },

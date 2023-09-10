@@ -1,12 +1,11 @@
 import { Box, Button, TextField, useMediaQuery } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../../components/Header";
 import { Formik } from "formik";
 import * as yup from "yup";
-import TableStyle from "../../../components/TableStyle";
+import TableInteractive from "../../../components/TableInteractive";
 
 const PatientProblematica = (oData, oUser) => {
-  console.log("", oData);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const initialValues = {
     id: oData.oData.id,
@@ -19,41 +18,58 @@ const PatientProblematica = (oData, oUser) => {
     sustancia: oData.oData.sustancia,
   };
   const userSchema = yup.object().shape({
-    nombre: yup.string().required("Campo obligatorio"),
+    acciones: yup.string().required("Campo obligatorio"),
   });
   const columns = [
     {
-      field: "tratamiento",
-      headerName: "Tratamiento",
-      width: 150,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "aplicacion",
-      headerName: "Aplicaciones",
-      width: 150,
-      cellClassName: "name-column--cell",
+      field: "fechas",
+      headerName: "Fechas",
+      width: 100,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
     },
     {
       field: "duracion",
       headerName: "Duracion",
       width: 100,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "fechas",
-      headerName: "Fechas",
-      width: 100,
-      cellClassName: "name-column--cell",
+      align: "left",
+      headerAlign: "left",
+      editable: true,
     },
     {
       field: "lugar",
-      headerName: "Lugar de atencion",
+      headerName: "Lugar",
+      width: 100,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
+    },
+    {
+      field: "aplicacion",
+      headerName: "Aplicacion",
       width: 150,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
+    },
+    {
+      field: "tratamiento",
+      headerName: "Tratamiento",
+      width: 200,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
     },
   ];
 
+  const [oTratamientos, setTratamientos] = useState([]);
+
+  const oSetTratamientos = (oData) => {
+    setTratamientos(oData);
+  };
   const handleFormSubmit = (values) => {
+    values.tratamientos = oTratamientos;
     console.log(values, oUser);
   };
   return (
@@ -158,9 +174,10 @@ const PatientProblematica = (oData, oUser) => {
                 sx={{ gridColumn: "span 2" }}
               />
             </Box>
-            <TableStyle
-              oData={oData.oData.problematica.tratamientos}
+            <TableInteractive
+              oData={values.tratamientos}
               oColumns={columns}
+              oSetTratamientos={() => oSetTratamientos}
             />
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
