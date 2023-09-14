@@ -4,8 +4,9 @@ import Header from "../../../components/Header";
 import { Formik } from "formik";
 import * as yup from "yup";
 import TableInteractive from "../../../components/TableInteractive";
+import { EditarProblematica } from "../../../app/pacienteContext";
 
-const PatientProblematica = (oData, oUser) => {
+const PatientProblematica = (oData) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const initialValues = {
     id: oData.oData.id,
@@ -16,6 +17,16 @@ const PatientProblematica = (oData, oUser) => {
     resultadosObtenidos: oData.oData.problematica.resultadosObbtenidos,
     tratamientos: oData.oData.problematica.tratamientos,
     sustancia: oData.oData.sustancia,
+  };
+  const oTratamientoObject = {
+    tratamiento: "",
+    aplicacion: "",
+    fechas: "",
+    lugar: "",
+    duracion: "",
+  };
+  const oSustanciaObject = {
+    nombre: "",
   };
   const userSchema = yup.object().shape({
     acciones: yup.string().required("Campo obligatorio"),
@@ -62,15 +73,29 @@ const PatientProblematica = (oData, oUser) => {
       editable: true,
     },
   ];
-
-  const [oTratamientos, setTratamientos] = useState([]);
+  const SustanciaColumns = [
+    {
+      field: "nombre",
+      headerName: "Sustancia",
+      width: 200,
+      align: "left",
+      headerAlign: "left",
+      editable: true,
+    },
+  ];
+  const [oTratamientos, setTratamientos] = useState(initialValues.tratamientos);
+  const [oSustancias, setSustancias] = useState(initialValues.sustancia);
 
   const oSetTratamientos = (oData) => {
     setTratamientos(oData);
   };
+  const oSetSustancias = (oData) => {
+    setSustancias(oData);
+  };
   const handleFormSubmit = (values) => {
     values.tratamientos = oTratamientos;
-    console.log(values, oUser);
+    values.sustancia = oSustancias;
+    EditarProblematica(values, oData.oUser);
   };
   return (
     <Box m="20px">
@@ -177,7 +202,14 @@ const PatientProblematica = (oData, oUser) => {
             <TableInteractive
               oData={values.tratamientos}
               oColumns={columns}
-              oSetTratamientos={() => oSetTratamientos}
+              oSetData={() => oSetTratamientos}
+              oObject={oTratamientoObject}
+            />
+            <TableInteractive
+              oData={values.sustancia}
+              oColumns={SustanciaColumns}
+              oSetData={() => oSetSustancias}
+              oObject={oSustanciaObject}
             />
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">

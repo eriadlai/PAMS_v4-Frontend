@@ -3,6 +3,7 @@ import {
   oErrorAlert,
   oSuccessAlert,
   oSuccessAlertRedirection,
+  oSuccessAlertReload,
 } from "../components/Alerts/Alerts";
 
 export const CrearPaciente = async (oPaciente, oData) => {
@@ -128,5 +129,39 @@ export const EditarPaciente = async (oPaciente, oData) => {
   oSuccessAlert(
     "Datos Actualizados",
     "Los datos del paciente han sido actualizados satisfactoriamente"
+  );
+};
+export const EditarProblematica = async (oPaciente, oData) => {
+  oPaciente.tratamientos.forEach((x) => {
+    delete x.id;
+    delete x.isNew;
+  });
+  oPaciente.sustancia.forEach((x) => {
+    delete x.id;
+    delete x.isNew;
+  });
+  const SetPaciente = {
+    oUserID: oData.user.id,
+    oUserRol: oData.user.rol,
+    oID: oPaciente.id,
+    Problematica: {
+      acciones: oPaciente.acciones,
+      causas: oPaciente.causas,
+      evolucion: oPaciente.evolucion,
+      implicaciones: oPaciente.implicaciones,
+      resultadosObbtenidos: oPaciente.resultadosObtenidos,
+      tratamientos: oPaciente.tratamientos,
+    },
+    Sustancia: oPaciente.sustancia,
+  };
+  const oResult = await RutaApi.patch("/problematica/update", SetPaciente);
+  if (oResult.status !== 200) {
+    oErrorAlert("Ups", "Ha sucedido un error...");
+  }
+  oUpdateToken(oData, oData.user.token);
+  oSuccessAlertRedirection(
+    "Datos Actualizados",
+    "Los datos del paciente han sido actualizados satisfactoriamente",
+    "/TablaPacientes"
   );
 };

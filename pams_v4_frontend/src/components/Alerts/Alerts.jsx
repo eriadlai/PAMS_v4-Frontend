@@ -21,6 +21,14 @@ export const oSuccessAlertRedirection = (oTitle, oText, oRuta) => {
     confirmButtonText: "Aceptar",
   }).then(() => window.location.replace(oRuta));
 };
+export const oSuccessAlertReload = (oTitle, oText) => {
+  MySwal.fire({
+    title: oTitle,
+    text: oText,
+    icon: "success",
+    confirmButtonText: "Aceptar",
+  }).then(() => window.location.reload());
+};
 export const oErrorAlert = (oTitle, oText) => {
   MySwal.fire({
     title: oTitle,

@@ -14,33 +14,25 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import { randomId } from "@mui/x-data-grid-generator";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../theme";
 
 function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
-
+  const { setRows, setRowModesModel, oData, oSetFocus } = props;
   const handleClick = () => {
     const id = randomId();
-    setRows((oldRows) => [
-      ...oldRows,
-      {
-        id,
-        tratamiento: "",
-        aplicacion: "",
-        fechas: "",
-        lugar: "",
-        duracion: "",
-        isNew: true,
-      },
-    ]);
+    oData.oObject.id = id;
+    oData.oObject.isNew = true;
+    setRows((oldRows) => [...oldRows, oData.oObject]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "tratamiento" },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: oSetFocus },
     }));
   };
 
   return (
     <GridToolbarContainer>
-      <Button color="secondary" startIcon={<AddIcon />} onClick={handleClick}>
+      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         AGREGAR
       </Button>
     </GridToolbarContainer>
@@ -48,6 +40,9 @@ function EditToolbar(props) {
 }
 
 const TableInteractive = (oData) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const oTema = theme.palette.mode;
   oData.oData.map((x) => {
     x.id = randomId();
     x.isNew = true;
@@ -55,6 +50,7 @@ const TableInteractive = (oData) => {
   const [rows, setRows] = useState(oData.oData);
   const [rowModesModel, setRowModesModel] = useState({});
 
+  const oSetData = oData.oSetData();
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -63,17 +59,17 @@ const TableInteractive = (oData) => {
 
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-    oData.oSetTratamientos(rows);
+    oSetData(rows);
   };
 
   const handleSaveClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-    oData.oSetTratamientos(rows);
+    oSetData(rows);
   };
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
-    oData.oSetTratamientos(rows);
+    oSetData(rows);
   };
 
   const handleCancelClick = (id) => () => {
@@ -86,17 +82,19 @@ const TableInteractive = (oData) => {
     if (editedRow.isNew) {
       setRows(rows.filter((row) => row.id !== id));
     }
+    oSetData(rows);
   };
 
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    oData.oSetTratamientos(rows);
+    oSetData(rows);
     return updatedRow;
   };
 
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
+    oSetData(rows);
   };
   const oColumns = [
     {
@@ -149,16 +147,52 @@ const TableInteractive = (oData) => {
   oData.oColumns.forEach((x) => {
     oColumns.unshift(x);
   });
+  const oSetFocus = oColumns[0].field;
   return (
     <Box
       sx={{
-        height: 500,
-        width: "100%",
+        pt: 4,
+        "& .MuiDataGrid-cell": {
+          borderBottom: "none",
+          color: colors.dark,
+        },
+        "& .name-column--cell": {
+          color: colors.dark,
+        },
+        "& .MuiDataGrid-columnHeaders": {
+          backgroundColor: colors.primary,
+          borderBottom: "none",
+        },
+        "& .MuiDataGrid-virtualScroller": {
+          backgroundColor: colors.grey,
+        },
+        "& .MuiDataGrid-footerContainer": {
+          borderTop: "none",
+          backgroundColor: colors.primary,
+        },
+        "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+          color: `${
+            oTema === "light" ? colors.primaryDark : colors.green
+          } !important`,
+        },
         "& .actions": {
-          color: "text.secondary",
+          color: colors.primaryDark,
         },
         "& .textPrimary": {
-          color: "text.primary",
+          color: colors.primary,
+        },
+        "@media (max-width: 600px)": {
+          "& .MuiDataGrid-root": {
+            overflowX: "auto",
+          },
+          "& .MuiDataGrid-columnsContainer": {
+            flexWrap: "nowrap",
+          },
+          "& .MuiDataGrid-colCellTitle": {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          },
         },
       }}
     >
@@ -174,7 +208,7 @@ const TableInteractive = (oData) => {
           toolbar: EditToolbar,
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel },
+          toolbar: { setRows, setRowModesModel, oData, oSetFocus },
         }}
       />
     </Box>
