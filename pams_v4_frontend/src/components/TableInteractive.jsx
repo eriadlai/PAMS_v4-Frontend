@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -21,9 +21,11 @@ function EditToolbar(props) {
   const { setRows, setRowModesModel, oData, oSetFocus } = props;
   const handleClick = () => {
     const id = randomId();
-    oData.oObject.id = id;
-    oData.oObject.isNew = true;
-    setRows((oldRows) => [...oldRows, oData.oObject]);
+    let oNewObject = oData.oObject;
+    oNewObject.id = id;
+    oNewObject.isNew = true;
+    console.log(oNewObject, "=====");
+    setRows((oldRows) => [...oldRows, oNewObject]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: oSetFocus },
@@ -40,17 +42,23 @@ function EditToolbar(props) {
 }
 
 const TableInteractive = (oData) => {
+  oData.oData.forEach((x) => {
+    if (x.id === undefined) {
+      x.id = randomId();
+      x.isNew = false;
+    }
+  });
+
+  console.log(oData.oData);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const oTema = theme.palette.mode;
-  oData.oData.map((x) => {
-    x.id = randomId();
-    x.isNew = true;
-  });
+
   const [rows, setRows] = useState(oData.oData);
   const [rowModesModel, setRowModesModel] = useState({});
 
   const oSetData = oData.oSetData();
+
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -59,7 +67,6 @@ const TableInteractive = (oData) => {
 
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-    oSetData(rows);
   };
 
   const handleSaveClick = (id) => () => {
@@ -69,7 +76,6 @@ const TableInteractive = (oData) => {
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
-    oSetData(rows);
   };
 
   const handleCancelClick = (id) => () => {
@@ -77,25 +83,22 @@ const TableInteractive = (oData) => {
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
+
     const editedRow = rows.find((row) => row.id === id);
     if (editedRow.isNew) {
       setRows(rows.filter((row) => row.id !== id));
     }
-    oSetData(rows);
-    console.log(rows);
-    console.log(rowModesModel);
   };
 
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    oSetData(rows);
+
     return updatedRow;
   };
 
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
-    oSetData(rows);
   };
   const oColumns = [
     {

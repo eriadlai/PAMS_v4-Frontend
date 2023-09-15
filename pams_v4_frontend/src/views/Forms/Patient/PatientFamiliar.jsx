@@ -5,7 +5,7 @@ import {
   TextField,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../components/Header";
 import * as yup from "yup";
 import { Formik } from "formik";
@@ -16,6 +16,7 @@ import {
   oTipoCasa,
 } from "../../../app/staticDataContext";
 import ModalTable from "../../../components/ModalTable";
+import { randomId } from "@mui/x-data-grid-generator";
 
 const PatientFamiliar = (oData) => {
   console.log(oData);
@@ -42,6 +43,7 @@ const PatientFamiliar = (oData) => {
       return x.sustancia;
     })
   );
+
   const oSetServiciosHogar = (oData) => {
     setServiciosHogar(oData);
   };
