@@ -30,6 +30,12 @@ const PatientProblematica = (oData) => {
   };
   const userSchema = yup.object().shape({
     acciones: yup.string().required("Campo obligatorio"),
+    causas: yup.string().required("Campo obligatorio"),
+    evolucion: yup.string().required("Campo obligatorio"),
+    implicaciones: yup.string().required("Campo obligatorio"),
+    tratamientos: yup.string().required("Campo obligatorio"),
+    resultadosObtenidos: yup.string().required("Campo obligatorio"),
+    sustancia: yup.string().required("Campo obligatorio"),
   });
   const columns = [
     {

@@ -15,8 +15,8 @@ const initialValues = {
 };
 
 const userSchema = yup.object().shape({
-  username: yup.string().email("Invalid email").required("required"),
-  password: yup.string().required("required"),
+  username: yup.string().email("Correo Invalido").required("Campo Obligatorio"),
+  password: yup.string().required("Campo Obligatorio"),
 });
 const Form = () => {
   const oUsuarios = useSelector((state) => state.usuario);

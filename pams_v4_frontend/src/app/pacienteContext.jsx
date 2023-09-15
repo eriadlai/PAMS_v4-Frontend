@@ -3,7 +3,6 @@ import {
   oErrorAlert,
   oSuccessAlert,
   oSuccessAlertRedirection,
-  oSuccessAlertReload,
 } from "../components/Alerts/Alerts";
 
 export const CrearPaciente = async (oPaciente, oData) => {

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../components/Header";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -18,8 +18,10 @@ const PatientsMenu = () => {
   const theme = useTheme();
   const oUser = useSelector((state) => state.usuario);
   const { state: data } = useLocation();
-  const [value, setValue] = useState(1);
-
+  const [value, setValue] = useState(localStorage.getItem("TabOption") || "1");
+  useEffect(() => {
+    localStorage.setItem("TabOption", value);
+  }, [value]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -87,26 +89,26 @@ const PatientsMenu = () => {
               scrollButtons="auto"
               aria-label="scrollable auto tabs example"
             >
-              <Tab label="Informacion General" value={1} />
-              <Tab label="Problematica" value={2} />
-              <Tab label="Aspectos Familiares" value={3} />
-              <Tab label="Antecedentes" value={4} />
-              <Tab label="Aspectos Personales" value={5} />
+              <Tab label="Informacion General" value={"1"} />
+              <Tab label="Problematica" value={"2"} />
+              <Tab label="Aspectos Familiares" value={"3"} />
+              <Tab label="Antecedentes" value={"4"} />
+              <Tab label="Aspectos Personales" value={"5"} />
             </TabList>
           </Box>
-          <TabPanel value={1}>
+          <TabPanel value={"1"}>
             <PatientEditForm oDatos={oDatosGenerales} oUser={oUser} />
           </TabPanel>
-          <TabPanel value={2}>
+          <TabPanel value={"2"}>
             <PatientProblematica oData={oDatosProblematica} oUser={oUser} />
           </TabPanel>
-          <TabPanel value={3}>
+          <TabPanel value={"3"}>
             <PatientFamiliar oData={oDatosFamiliar} oUser={oUser} />
           </TabPanel>
-          <TabPanel value={4}>
+          <TabPanel value={"4"}>
             <PatientAntecedentes oData={oDatosAntecedentes} oUser={oUser} />
           </TabPanel>
-          <TabPanel value={5}>
+          <TabPanel value={"5"}>
             <PatientPersonal oData={oDatosPersonales} oUser={oUser} />
           </TabPanel>
         </TabContext>

@@ -77,12 +77,13 @@ const TableInteractive = (oData) => {
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
-
     const editedRow = rows.find((row) => row.id === id);
     if (editedRow.isNew) {
       setRows(rows.filter((row) => row.id !== id));
     }
     oSetData(rows);
+    console.log(rows);
+    console.log(rowModesModel);
   };
 
   const processRowUpdate = (newRow) => {
